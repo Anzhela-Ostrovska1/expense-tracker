@@ -1,0 +1,18 @@
+<nav class="navbar-components">
+
+   <div>
+    <div class="navbar-name">
+    <i class="fas fa-calculator calc-icon"></i>
+    <h2>Expense Tracker</h2>
+    </div>
+
+  <p>Track your income and expenses to better manage your finances</p> 
+  </div>
+
+    <div class="month-selector">
+    <label for="monthSelect">Select Month:</label>
+    <input type="month" id="monthSelect" [ngModel]="selectedMonth" (ngModelChange)="selectedMonthChange.emit($event)">
+    
+  </div>
+
+</nav>

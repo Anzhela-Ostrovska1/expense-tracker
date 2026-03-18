@@ -1,0 +1,61 @@
+<section>
+  <form [formGroup]="transactionForm" (ngSubmit)="onFormSubmit()" class="transaction-form-grid">
+
+    <!-- Ряд 1: Expense / Income -->
+    <div class="row type-toggle">
+      <button
+        type="button"
+        [class.active]="transactionForm.get('type')?.value === 'expense'"
+        (click)="transactionForm.get('type')?.setValue('expense')">
+        Expense
+      </button>
+      <button
+        type="button"
+        [class.active]="transactionForm.get('type')?.value === 'income'"
+        (click)="transactionForm.get('type')?.setValue('income')">
+        Income
+      </button>
+    </div>
+
+    <!-- Ряд 2: Amount + Category -->
+   <div class="amount-category">
+  <div>
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount" formControlName="amount" step="0.01" placeholder="0.00"  min="0.01" (input)="onAmountInput($event)">
+
+
+@if ((amount?.hasError('required') || amount?.hasError('min')) && amount?.touched) {
+  <div class="error">
+    Amount is required and must be at least 0.01
+  </div>
+}
+  </div>
+
+  <div>
+    <label for="category">Category:</label>
+    <select id="category" formControlName="category">
+      <option value="" disabled selected>-- Choose category --</option>
+      @for (cat of getCurrentCategories(); track cat) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+    </select>
+  </div>
+</div>
+
+    <!-- Ряд 3: Date -->
+    <div class="row full-width">
+      <label for="date">Date:</label>
+      <input type="date" id="date" formControlName="date">
+    </div>
+
+    <!-- Ряд 4: Description -->
+    <div class="row full-width">
+      <label for="description">Description:</label>
+      <input type="text" id="description" formControlName="description">
+    </div>
+
+    <!-- Ряд 5: Submit -->
+    <button type="submit" [disabled]="!transactionForm.valid">Add Transaction</button>
+
+  </form>
+</section>

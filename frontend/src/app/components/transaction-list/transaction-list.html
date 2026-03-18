@@ -1,0 +1,89 @@
+<section class="list-section">
+  <h2>Transactions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (t of filteredTransactions; track t.id) {
+        <tr>
+
+          <!-- DATE -->
+          <td>
+            @if (editingId === t.id) {
+              <input type="date" [(ngModel)]="editingTransaction!.date">
+            } @else {
+              {{ t.date }}
+            }
+          </td>
+
+          <!-- CATEGORY -->
+          <td>
+            @if (editingId === t.id) {
+              <select [(ngModel)]="editingTransaction!.category">
+                <option value="" disabled>-- Choose category --</option>
+                @for (cat of getCategoriesFor(editingTransaction!.type); track cat) {
+                  <option [value]="cat">{{ cat }}</option>
+                }
+              </select>
+            } @else {
+              {{ t.category }}
+            }
+          </td>
+
+          <!-- TYPE -->
+          <td>
+            @if (editingId === t.id) {
+              <select [(ngModel)]="editingTransaction!.type">
+                <option value="expense">Expense</option>
+                <option value="income">Income</option>
+              </select>
+            } @else {
+              {{ t.type }}
+            }
+          </td>
+
+          <!-- AMOUNT -->
+          <td>
+            @if (editingId === t.id) {
+              <input type="number" [(ngModel)]="editingTransaction!.amount">
+            } @else {
+              {{ t.amount }}
+            }
+          </td>
+
+          <!-- DESCRIPTION -->
+       <td class="description-cell">
+  @if (editingId === t.id) {
+    <input [(ngModel)]="editingTransaction!.description">
+  } @else {
+    {{ t.description }}
+  }
+</td>
+
+
+          <!-- ACTIONS -->
+          <td class="actions">
+            @if (editingId === t.id) {
+              <button (click)="onSaveTransaction()">💾 Save</button>
+              <button (click)="cancelEdit()">❌ Cancel</button>
+            } @else {
+              <button (click)="onEditTransaction(t)">✏️ Edit</button>
+              <button (click)="onDeleteTransaction(t)">🗑️ Delete</button>
+            }
+          </td>
+
+        </tr>
+      }
+    </tbody>
+
+  </table>
+</section>

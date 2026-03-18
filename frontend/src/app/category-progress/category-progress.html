@@ -1,0 +1,37 @@
+<section class="progress-section">
+
+  <h3>Expense Categories by Percentage</h3>
+
+  <div>
+    @for (c of categoriesData; track c.category) {
+
+      <div class="progress-item">
+
+        <div class="progress-name">
+          {{ c.category }}
+        </div>
+
+        <div class="category-progress">
+          <div class="progress-bar">
+            <div 
+              class="progress-fill"
+              [style.width.%]="c.percent"
+            >
+              <span class="percent">
+                {{ c.percent }}%
+              </span>
+            </div>
+          </div>
+
+          <div class="total">
+            ${{ c.total }}
+          </div>
+        </div>
+
+      </div>
+
+    }
+  </div>
+
+</section>
+

@@ -1,0 +1,143 @@
+section {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.transaction-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 колонки для Amount + Category */
+  grid-auto-rows: auto;
+  gap: 1rem;
+  width: 100%;
+  max-width: 800px; /* ширина формы как у списка транзакций */
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===== Ряд 1: Type toggle ===== */
+.type-toggle {
+  grid-column: 1 / -1; /* на всю ширину */
+  display: flex;
+  gap: 1rem;
+
+}
+
+.type-toggle button {
+  flex: 1;
+  padding: 0.6rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: #333;
+  
+}
+
+.type-toggle button.active {
+  background: #4a90e2;
+  color: white;
+  border-color: #4a90e2;
+}
+
+.type-toggle button:not(.active):hover {
+  background: #e0e0e0;
+}
+
+/* ===== Ряд 2: Amount + Category ===== */
+
+/* Chrome, Edge, Safari */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
+.transaction-form-grid .amount-category {
+  display: flex;
+   grid-column: 1 / -1; 
+  gap: 1rem;       /* расстояние между Amount и Category */
+}
+
+.transaction-form-grid .amount-category > div {
+  flex: 1;         /* каждая колонка занимает половину ширины ряда */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Ряд 3 и 4: Date / Description ===== */
+.transaction-form-grid > div:nth-child(3),
+.transaction-form-grid > div:nth-child(4) {
+  grid-column: 1 / -1; /* на всю ширину */
+  display: flex;
+  flex-direction: column;
+  
+
+}
+
+/* ===== Метки ===== */
+label {
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+  color: #333;
+  
+}
+
+/* ===== Inputs & Selects ===== */
+input,
+select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Ошибки валидации */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border: 1px solid red;
+  background: #ffeaea;
+}
+
+.error {
+  font-size: 0.85rem;
+  color: red;
+  margin-top: 0.25rem;
+}
+
+/* ===== Кнопка отправки ===== */
+button[type="submit"] {
+  grid-column: 1 / -1;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #4a90e2;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background: #357ab7;
+}
+
+button[type="submit"]:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
