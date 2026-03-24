@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TransactionFormComponent } from '../transaction-form/transaction-form';  
 import { TransactionListComponent } from '../transaction-list/transaction-list';
@@ -15,12 +15,13 @@ import { Transaction } from '../../models/transaction.model';
 })
 export class DashboardComponent implements OnInit {
 
-  @Input() selectedMonth!: string;
+  // @Input() selectedMonth!: string;
 
   transactions: Transaction[] = []; 
   // selectedMonth: string = new Date().toISOString().slice(0, 7); // "YYYY-MM" "2025-10-15T23:45:12.345Z"
-  selectedDate: string = new Date().toISOString().slice(0,10);
-
+  // selectedDate: string = new Date().toISOString().slice(0,10);
+  selectedDAte: string = new Date().toISOString().slice(0, 7);
+selectedMonth: string = new Date().toISOString().slice(0, 7);
   monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
