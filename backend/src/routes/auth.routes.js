@@ -1,5 +1,6 @@
 import express from "express";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs"; //хешурует пароль для базы данных и потом расшифроввывает 
+                               //когда пользователь вводит норм пароль (123456) с тем хешированным в базе даннх
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
@@ -28,7 +29,7 @@ router.post("/register", async (req, res) => {
 
     // 4. Создаём JWT токен
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );

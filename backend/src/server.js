@@ -3,6 +3,9 @@ import cors from "cors"; //Браузер **блокирует** запросы 
 import dotenv from "dotenv"; 
 import "./db.js";
 import authRoutes from "./routes/auth.routes.js"; 
+import transactionRoutes from "./routes/transactions.routes.js";
+
+
 
 dotenv.config(); // ← читает .env файл
 
@@ -25,6 +28,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes); 
+app.use("/api/transactions", transactionRoutes); 
 
 app.get("/api/test", (req, res) => {
   res.json({ message: "Backend works 🚀" });
