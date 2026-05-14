@@ -10,34 +10,38 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // РЕГИСТРАЦИЯ
   register(email: string, password: string, username: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, { email, password, username });
   }
 
-  // ЛОГИН
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
 
-  // СОХРАНИТЬ ТОКЕН
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
-  // ПОЛУЧИТЬ ТОКЕН
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // ПРОВЕРИТЬ ЗАЛОГИНЕН ЛИ
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
-  // ВЫЙТИ
-  logout(): void {
-    localStorage.removeItem('token');
-  }
+saveUser(token: string, username: string): void {
+  localStorage.setItem('token', token);
+  localStorage.setItem('username', username);
+}
+
+getUsername(): string | null {
+  return localStorage.getItem('username');
+}
+
+logout(): void {
+  localStorage.removeItem('token');
+  localStorage.removeItem('username');
+}
 }
 

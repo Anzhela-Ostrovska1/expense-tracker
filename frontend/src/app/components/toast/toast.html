@@ -1,0 +1,10 @@
+@if (toast) {
+  <div class="toast" [class.error]="toast.type === 'error'" [class.success]="toast.type === 'success'">
+    @if (toast.type === 'error') {
+      ❌
+    } @else {
+      ✅
+    }
+    {{ toast.message }}
+  </div>
+}

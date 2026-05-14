@@ -1,6 +1,6 @@
 <section class="progress-section">
 
-  <h3>Expense Categories by Percentage</h3>
+  <h2>Expense Categories by Percentage</h2>
 
   <div>
     @for (c of categoriesData; track c.category) {
@@ -24,7 +24,7 @@
           </div>
 
           <div class="total">
-            ${{ c.total }}
+            ${{ c.total | number:'1.2-2' }}
           </div>
         </div>
 

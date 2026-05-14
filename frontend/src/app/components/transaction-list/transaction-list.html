@@ -1,5 +1,26 @@
 <section class="list-section">
-  <h2>Transactions</h2>
+  <div class="filter-section">
+    <h2>Transactions</h2>
+<div class="filters">
+      <select class="filter-input" id="type" [(ngModel)]="selectedType">
+        <option value="">All types</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+
+       <select class="filter-input" id="category" [(ngModel)]="selectedCategory">
+      <option value="">All categories</option>
+       @for (cat of getAllCategories(); track cat) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+      </select>
+
+      <input class="filter-input" placeholder="Search..." [(ngModel)]="searchQuery" >
+</div>
+  </div>
+
+
+    <div class="table-wrapper"> 
   <table>
     <thead>
       <tr>
@@ -86,4 +107,5 @@
     </tbody>
 
   </table>
+  </div>
 </section>

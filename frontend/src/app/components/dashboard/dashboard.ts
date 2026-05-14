@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { TransactionFormComponent } from '../transaction-form/transaction-form';
 import { TransactionListComponent } from '../transaction-list/transaction-list';
 import { CategoryProgressComponent } from '../../category-progress/category-progress';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionService } from '../../services/transaction';
+import { MonthService } from '../../services/month';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,52 +16,67 @@ import { TransactionService } from '../../services/transaction';
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
 })
-export class DashboardComponent implements OnInit {
-
+export class DashboardComponent implements OnInit, OnDestroy {
+isLoading = false;
   transactions: Transaction[] = [];
   selectedMonth: string = new Date().toISOString().slice(0, 7);
+    private monthSub!: Subscription;
 
   monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  constructor(private transactionService: TransactionService) {}
 
-  ngOnInit() {
-    this.loadTransactions(); // ← загружаем с бекенда при старте
+   constructor(
+    private transactionService: TransactionService,
+    private monthService: MonthService,
+     private toast: ToastService
+  ) {}
+
+
+ngOnInit() {
+  localStorage.removeItem('transactions'); 
+  this.selectedMonth = this.monthService.getMonth();
+  
+  this.monthSub = this.monthService.selectedMonth$.subscribe(month => {
+    this.selectedMonth = month;
+  });
+
+  this.loadTransactions();
+}
+  ngOnDestroy() {
+    this.monthSub.unsubscribe();
   }
+addTransaction(transaction: Transaction) {
+  this.transactionService.addTransaction(transaction).subscribe({
+    next: () => {
+      this.loadTransactions(true);
+    },
+    error: () => this.toast.error('Failed to add transaction')
+  });
+}
 
-  loadTransactions() {
-    this.transactionService.getTransactions().subscribe({
-      next: (data) => {
-        this.transactions = data;
-      },
-      error: (err) => {
-        console.error('Error loading transactions:', err);
+loadTransactions(showSuccess = false) {  
+  this.isLoading = true;
+  this.transactionService.getTransactions().subscribe({
+    next: (data) => {
+      this.transactions = data;
+      this.isLoading = false;
+      if (showSuccess) {
+        this.toast.success('Transaction added!'); 
       }
-    });
-  }
+    },
+    error: () => {
+      this.isLoading = false;
+      this.toast.error('Failed to load transactions');
+    }
+  });
+}
 
-  addTransaction(transaction: Transaction) {
-    this.transactionService.addTransaction(transaction).subscribe({
-      next: (newTransaction) => {
-        this.transactions.push(newTransaction);
-      },
-      error: (err) => {
-        console.error('Error adding transaction:', err);
-      }
-    });
-  }
-
-  saveToStorage(updatedTransactions: Transaction[]) {
-    updatedTransactions.forEach(t => {
-      this.transactionService.updateTransaction(t.id, t).subscribe({
-        error: (err) => console.error('Error updating:', err)
-      });
-    });
-    this.transactions = updatedTransactions;
-  }
+saveToStorage(updatedTransactions: Transaction[]) {
+  this.loadTransactions(); 
+}
 
   getMonthTransactions(): Transaction[] {
     return this.transactions
@@ -92,13 +110,13 @@ export class DashboardComponent implements OnInit {
   }
 
   private getTotalsByCategory(expenses: Transaction[]) {
-    const totals: Record<string, number> = {};
-    for (const t of expenses) {
-      totals[t.category] ??= 0;
-      totals[t.category] += t.amount;
-    }
-    return totals;
+  const totals: Record<string, number> = {};
+  for (const t of expenses) {
+    totals[t.category] ??= 0;
+    totals[t.category] += parseFloat(t.amount.toString()); 
   }
+  return totals;
+}
 
   private getSortedCategories(totals: Record<string, number>) {
     const totalExpense = this.getTotalExpense();

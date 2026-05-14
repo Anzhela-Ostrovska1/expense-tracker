@@ -1,9 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CategoryService } from '../services/category-service';
 import { CommonModule } from '@angular/common';
-import { Transaction } from '../models/transaction.model';
-
-
 
 @Component({
   selector: 'app-category-progress',

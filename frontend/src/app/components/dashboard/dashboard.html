@@ -1,10 +1,4 @@
 <section>
-
-    <!-- <div class="month-selector">
-    <label for="monthSelect">Select Month:</label>
-    <input type="month" id="monthSelect" [(ngModel)]="selectedMonth">
-  </div> -->
-
   <div class="dashboard-cards">
     <div class="card income">
       <h4>Total Income</h4><h4 class="month-name">{{ getMonthName() }}</h4>
@@ -26,7 +20,11 @@
   <app-transaction-form (newTransaction)="addTransaction($event)" ></app-transaction-form>
   <app-category-progress [categoriesData]="categoriesData"></app-category-progress>
 
-  <!-- <app-category-progress></app-category-progress> -->
+  @if (isLoading) {
+  <div class="spinner-container">
+    <div class="spinner"></div>
+  </div>
+}
   <app-transaction-list
   [transactions]="transactions"
   [selectedMonth]="selectedMonth"
@@ -36,9 +34,3 @@
   
 </section>
 
-
-<!-- 
-(newTransaction)Название кастомного ивента ="addTransaction($event)" Вызываем ф-ю и передаем конверт  
- [transactions]="transactions"  Передаем инпут компоненту (инпут в классе это как параметр в ф-ии)
- (save)="saveToStorage($event)">  Берем от дочернего компонента кастомный ивент output
--->

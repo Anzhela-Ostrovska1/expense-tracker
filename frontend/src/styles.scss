@@ -1,17 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
 .app-container {
   max-width: 1200px;
-  margin: 0 auto;       /* центрирует */
-  padding: 0 1rem;      /* отступы по бокам */
+  margin: 0 auto;       
+  padding: 0 1rem;      
 }
-// body {
-//   margin: 0;
-//   background-color: #f5f7fa;
-//   font-family: 'Space Grotesk', sans-serif;
-//   font-style: normal;
-
-
-// }
 
 body {
   font-family: 'Inter', sans-serif;
@@ -23,4 +14,16 @@ body {
 
 h1, h2, h3 {
   font-weight: 600;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+ overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+
+
 }

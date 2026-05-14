@@ -1,18 +1,34 @@
 <nav class="navbar-components">
-
-   <div>
+  <div>
     <div class="navbar-name">
-    <i class="fas fa-calculator calc-icon"></i>
-    <h2>Expense Tracker</h2>
+      <i class="fas fa-calculator calc-icon"></i>
+      <h1 class="app-name">Expense Tracker</h1>
     </div>
-
-  <p>Track your income and expenses to better manage your finances</p> 
+    <p>Track your income and expenses to better manage your finances</p>
   </div>
 
-    <div class="month-selector">
-    <label for="monthSelect">Select Month:</label>
-    <input type="month" id="monthSelect" [ngModel]="selectedMonth" (ngModelChange)="selectedMonthChange.emit($event)">
-    
+  <div class="right-side">
+    @if (loggedIn) {
+  <div class="month-selector">
+    <i class="fas fa-calendar-alt"></i>
+    <input
+      type="month"
+      [ngModel]="selectedMonth"
+      (ngModelChange)="onMonthChange($event)"
+    />
   </div>
+}
 
+    <div class="auth">
+      @if (loggedIn) {
+        <span class="greeting">Hello, {{ username }}!</span>
+        <button class="auth-btn logout-btn" (click)="logout()">
+          Logout
+        </button>
+      } @else {
+        <button class="auth-btn"><a routerLink="/login">Login</a></button>
+        <button class="auth-btn"><a routerLink="/register">Register</a></button>
+      }
+    </div>
+  </div>
 </nav>
