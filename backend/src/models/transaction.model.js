@@ -41,7 +41,7 @@ const Transaction = sequelize.define("Transaction", {
   updatedAt: false,
 });
 
-// Связь — транзакция принадлежит пользователю
+
 User.hasMany(Transaction, { foreignKey: "user_id" });
 Transaction.belongsTo(User, { foreignKey: "user_id" });
 

@@ -3,25 +3,21 @@ import Transaction from "../models/transaction.model.js";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
-
-// MIDDLEWARE — проверяем токен перед каждым запросом
 const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1]; // Bearer TOKEN
-
+  const token = req.headers.authorization?.split(" ")[1]; 
   if (!token) {
     return res.status(401).json({ error: "No token provided" });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.userId; // ← сохраняем userId в запросе
-    next(); // ← пускаем дальше
+    req.userId = decoded.userId;
+    next(); 
   } catch (err) {
     return res.status(401).json({ error: "Invalid token" });
   }
 };
 
-// ПОЛУЧИТЬ ВСЕ ТРАНЗАКЦИИ ПОЛЬЗОВАТЕЛЯ
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const transactions = await Transaction.findAll({
@@ -35,9 +31,16 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-// ДОБАВИТЬ ТРАНЗАКЦИЮ
 router.post("/", authMiddleware, async (req, res) => {
   const { amount, type, category, date, description } = req.body;
+
+   if (!amount || !type || !date) {
+    return res.status(400).json({ error: "Amount, type and date are required" });
+  }
+
+  if (amount <= 0 || amount > 99999999.99) {
+    return res.status(400).json({ error: "Invalid amount" });
+  }
 
   try {
     const transaction = await Transaction.create({
@@ -55,7 +58,6 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// УДАЛИТЬ ТРАНЗАКЦИЮ
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const transaction = await Transaction.findOne({
@@ -74,7 +76,6 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// РЕДАКТИРОВАТЬ ТРАНЗАКЦИЮ
 router.put("/:id", authMiddleware, async (req, res) => {
   const { amount, type, category, date, description } = req.body;
 
