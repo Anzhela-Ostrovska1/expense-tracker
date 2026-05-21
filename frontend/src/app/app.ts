@@ -19,11 +19,9 @@ export class App {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-       console.log('url:', event.url);
-  console.log('showNavbar:', this.showNavbar);
       const authPages = ['/','/login', '/register'];
       this.showNavbar = !authPages.includes(event.url);
-      console.log('showNavbar after:', this.showNavbar);
+      
     });
   }
 }

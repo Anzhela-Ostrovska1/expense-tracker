@@ -76,7 +76,6 @@ ngOnInit(): void {
   this.monthService.selectedMonth$.pipe(
     takeUntil(this.destroy$)
   ).subscribe(month => {
-    console.log('form month changed:', month);
     const firstDayOfMonth = `${month}-01`;
     this.transactionForm.get('date')?.setValue(firstDayOfMonth);
   });

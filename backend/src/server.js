@@ -7,8 +7,16 @@ import transactionRoutes from "./routes/transactions.routes.js";
 
 dotenv.config(); 
 
+
+
+
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:4200',
+    'https://expense-tracker-chi-jade.vercel.app'
+  ]
+}));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes); 
