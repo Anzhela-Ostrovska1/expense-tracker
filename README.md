@@ -1,5 +1,8 @@
 # 💰 Expense Tracker
 
+## 🌐 Live Demo
+[expense-tracker-chi-jade.vercel.app](https://expense-tracker-chi-jade.vercel.app)
+
 A full-stack personal finance application for tracking income and expenses, built with Angular, Node.js, and PostgreSQL.
 
 ---
@@ -33,7 +36,9 @@ A full-stack personal finance application for tracking income and expenses, buil
 - bcryptjs
 
 **Database:**
-- PostgreSQL (Docker)
+- PostgreSQL
+- Neon (cloud, production)
+- Docker (local development)
 
 ---
 
