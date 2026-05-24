@@ -26,9 +26,7 @@ app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
 
-// app.get("/api/test", (req, res) => {
-//   res.json({ message: "Backend works 🚀" });
-// });
+
 
 const PORT = process.env.PORT || 5000;    
 app.listen(PORT, () => {
